@@ -3,11 +3,13 @@
     <div class="formParent">
     <el-alert v-if="notSubmitted"
         title="You must log in to see the tables"
-        type="warning">
+        type="warning"
+        class="elAlert">
     </el-alert>
       <el-alert v-if="!notSubmitted"
         title="You have logged in successfully"
-        type="success">
+        type="success"
+        class="elAlert">
     </el-alert>
     <el-form :model="ruleForm" status-icon :rules="rules" v-if="notSubmitted" ref="ruleForm" label-width="120px" class="demo-ruleForm">
       <el-form-item label="Username" prop="username">
@@ -116,7 +118,34 @@ import TableTest from './TableTest.vue'
             { min: 3, max: 20, message: 'Length should be 3 to 20', trigger: 'blur' }
           ],
         },
-        notSubmitted: true
+        notSubmitted: true, 
+        pickerOptions: {
+          disabledDate(time) {
+            return time.getTime() > Date.now();
+          },
+          shortcuts: [{
+            text: 'Today',
+            onClick(picker) {
+              picker.$emit('pick', new Date());
+            }
+          }, {
+            text: 'Yesterday',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              picker.$emit('pick', date);
+            }
+          }, {
+            text: 'A week ago',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit('pick', date);
+            }
+          }]
+        },
+        value1: '',
+        value2: '',
       };
     },
     methods: {
@@ -149,6 +178,10 @@ import TableTest from './TableTest.vue'
 
 .formParent {
   width: 850px;
+}
+
+.elAlert {
+  margin: 10px 0;
 }
 
 </style>
