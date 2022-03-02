@@ -1,5 +1,6 @@
 <template>
-  <div>
+<div class="container">
+    <div class="formParent">
     <el-form :model="ruleForm" status-icon :rules="rules" v-if="notSubmitted" ref="ruleForm" label-width="120px" class="demo-ruleForm">
       <el-form-item label="Username" prop="username">
         <el-input type="text" v-model="ruleForm.username" autocomplete="off"></el-input>
@@ -10,22 +11,30 @@
       <el-form-item label="Confirm" prop="checkPass">
         <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
       </el-form-item>
+      <el-form-item label="Activity zone">
+        <el-select v-model="ruleForm.region" placeholder="please select your town">
+          <el-option label="Craiova" value="Craiova"></el-option>
+          <el-option label="Bucuresti" value="Bucuresti"></el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item label="Age" prop="age">
         <el-input v-model.number="ruleForm.age"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')">Submit</el-button>
-        <el-button @click="resetForm('ruleForm')">Reset</el-button>
+        <el-button type="primary" plain @click="submitForm('ruleForm')">Submit</el-button>
+        <el-button type="danger" plain @click="resetForm('ruleForm')">Reset</el-button>
       </el-form-item>
     </el-form>
     <div v-else>
       <table-test></table-test>
     </div>
   </div>
+ 
+</div>
 </template>
 
 <script>
-import TableTest from './TableTest.vue';
+import TableTest from './TableTest.vue'
   export default {
     components: {
       TableTest
@@ -72,8 +81,12 @@ import TableTest from './TableTest.vue';
           checkPass: '',
           age: '',
           username: '',
+          region: '',
         },
         rules: {
+           region: [
+            { required: true, message: 'Please select Activity zone', trigger: 'change' }
+          ],
           pass: [
             { validator: validatePass, trigger: 'blur', required: true, }
           ],
@@ -96,6 +109,8 @@ import TableTest from './TableTest.vue';
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.notSubmitted = false;
+            console.log("submitted");
+            console.log(this.notSubmitted);
           } else {
             console.log('error submit!!');
             return false;
@@ -104,7 +119,21 @@ import TableTest from './TableTest.vue';
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
-      }
+      },
     }
   }
 </script>
+
+<style scoped>
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.formParent {
+  width: 850px;
+}
+
+</style>

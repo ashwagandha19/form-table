@@ -1,6 +1,11 @@
 <template>
   <div id="app">
-    <form-test></form-test>
+
+    <div>
+      <form-test></form-test>
+    </div>
+    
+    
   </div>
 </template>
 
@@ -10,8 +15,8 @@ import FormTest from './components/FormTest.vue'
 export default {
   name: 'App',
   components: {
-    FormTest
-  }
+    FormTest,
+  },
 }
 </script>
 
