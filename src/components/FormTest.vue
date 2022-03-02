@@ -1,6 +1,14 @@
 <template>
 <div class="container">
     <div class="formParent">
+    <el-alert v-if="notSubmitted"
+        title="You must log in to see the tables"
+        type="warning">
+    </el-alert>
+      <el-alert v-if="!notSubmitted"
+        title="You have logged in successfully"
+        type="success">
+    </el-alert>
     <el-form :model="ruleForm" status-icon :rules="rules" v-if="notSubmitted" ref="ruleForm" label-width="120px" class="demo-ruleForm">
       <el-form-item label="Username" prop="username">
         <el-input type="text" v-model="ruleForm.username" autocomplete="off"></el-input>
@@ -20,12 +28,19 @@
       <el-form-item label="Age" prop="age">
         <el-input v-model.number="ruleForm.age"></el-input>
       </el-form-item>
+      <el-form-item label="Select a day">
+        <el-date-picker
+          v-model="value1"
+          type="date"
+          placeholder="Pick a day">
+        </el-date-picker>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" plain @click="submitForm('ruleForm')">Submit</el-button>
         <el-button type="danger" plain @click="resetForm('ruleForm')">Reset</el-button>
       </el-form-item>
     </el-form>
-    <div v-else>
+    <div v-if="!notSubmitted">
       <table-test></table-test>
     </div>
   </div>
